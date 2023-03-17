@@ -20,7 +20,7 @@ public class Concurso {
 		this.fechaFin = FinInscripcion;
 	}
 
-	public boolean inscribirParticipante(Participante nuevo) throws FueraTerminoException {
+	public void inscribirParticipante(Participante nuevo) throws FueraTerminoException {
 
 		if ((!participantes.contains(nuevo)) && (this.puedeIncribirse())) {
 
@@ -28,18 +28,20 @@ public class Concurso {
 				nuevo.sumarPuntos(10);
 			}
 			this.participantes.add(nuevo);
-			return true;
 
 		} else {
-			new FueraTerminoException("Preguntar incripciones fuera de termino");
-			return false;
-		}
+			throw new FueraTerminoException("La inscripcion a finalizado.");
+		}		
 	}
 
 	private boolean puedeIncribirse() {
 		LocalDate hoy = LocalDate.now();
 		return (hoy.isBefore(fechaFin) && hoy.isAfter(fechaInicio.minusDays(1)));
 
+	}
+
+	public int cantidadInscriptos() {
+		return (participantes.size());
 	}
 
 }

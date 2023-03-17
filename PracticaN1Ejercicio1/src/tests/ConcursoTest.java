@@ -21,24 +21,31 @@ class ConcursoTest {
 		Participante miParticipante = new Participante(42699344);
 
 		try {
-			boolean resultado1 = primerConcurso.inscribirParticipante(miParticipante);
-			boolean valorEsparado = true;
 
-			assertEquals(valorEsparado, resultado1);
+			primerConcurso.inscribirParticipante(miParticipante);
+			int valorEsparado = 1;
+
+			assertEquals(valorEsparado, primerConcurso.cantidadInscriptos());
+
 		} catch (FueraTerminoException e) {
+
 			System.err.println("Excepcion inscripcion: " + e.getMessage());
 		}
+
 		// segundo caso cuando el participante se inscribe a un curso en el primer dia
 		Concurso segundoConcurso = new Concurso(2, LocalDate.now(), LocalDate.now().plusDays(8));
 
 		try {
+
 			segundoConcurso.inscribirParticipante(miParticipante);
 
 			int resultado2 = miParticipante.devolverCantidadDePuntos();
 			int puntosEsperados = 10;
 
 			assertEquals(puntosEsperados, resultado2);
+
 		} catch (FueraTerminoException e) {
+
 			System.err.println("Excepcion inscripcion: " + e.getMessage());
 		}
 
@@ -46,11 +53,14 @@ class ConcursoTest {
 		// finalizado
 		Concurso tercerConcurso = new Concurso(3, LocalDate.now().minusDays(16), LocalDate.now().minusDays(2));
 		try {
-			boolean resultado3 = tercerConcurso.inscribirParticipante(miParticipante);
-			boolean estadoEspera = false;
 
-			assertEquals(estadoEspera, resultado3);
+			tercerConcurso.inscribirParticipante(miParticipante);
+			int cantidadEsperada = 0;
+
+			assertEquals(cantidadEsperada, tercerConcurso.cantidadInscriptos());
+
 		} catch (FueraTerminoException e) {
+
 			System.err.println("Excepcion inscripcion: " + e.getMessage());
 		}
 	}
