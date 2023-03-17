@@ -13,10 +13,8 @@ import modelo.Participante;
 class ConcursoTest {
 
 	@Test
-	void testInscribirParticipante() {
+	void testInscribirParticipante1() {
 
-		// primer caso cuando el participante se inscribe a un curso pero no en el
-		// primer dia
 		Concurso primerConcurso = new Concurso(1, LocalDate.now().minusDays(2), LocalDate.now().plusDays(8));
 		Participante miParticipante = new Participante(42699344);
 
@@ -31,9 +29,13 @@ class ConcursoTest {
 
 			System.err.println("Excepcion inscripcion: " + e.getMessage());
 		}
+	}
 
-		// segundo caso cuando el participante se inscribe a un curso en el primer dia
+	@Test
+	void testInscribirParticipante2() {
+
 		Concurso segundoConcurso = new Concurso(2, LocalDate.now(), LocalDate.now().plusDays(8));
+		Participante miParticipante = new Participante(42699344);
 
 		try {
 
@@ -49,9 +51,14 @@ class ConcursoTest {
 			System.err.println("Excepcion inscripcion: " + e.getMessage());
 		}
 
-		// tercer caso cuando el aprticipante se intenta inscribir en un curso ya
-		// finalizado
+	}
+
+	@Test
+	void testInscribirParticipante3() {
+
 		Concurso tercerConcurso = new Concurso(3, LocalDate.now().minusDays(16), LocalDate.now().minusDays(2));
+		Participante miParticipante = new Participante(42699344);
+
 		try {
 
 			tercerConcurso.inscribirParticipante(miParticipante);
@@ -60,6 +67,8 @@ class ConcursoTest {
 			assertEquals(cantidadEsperada, tercerConcurso.cantidadInscriptos());
 
 		} catch (FueraTerminoException e) {
+
+			assertEquals(e.getMessage(), "La inscripcion a finalizado.");
 
 			System.err.println("Excepcion inscripcion: " + e.getMessage());
 		}
